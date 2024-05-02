@@ -1,3 +1,4 @@
+import { expect, it, describe } from "vitest"
 import { render, screen } from '@testing-library/react';
 import { ProductCard } from '.';
 
@@ -14,8 +15,14 @@ describe("ProductCard", () => {
     it("should check that all items are being rendered correctly", () => {
         render(<ProductCard product={productMock} />);
 
+
+        const imgProduct = screen.getByAltText(productMock.name);
+        expect(imgProduct).toBeInTheDocument()
+
         expect(screen.getByText(productMock.name)).toBeInTheDocument();
         expect(screen.getByText(productMock.description)).toBeInTheDocument();
+        expect(imgProduct).toHaveAttribute("src", productMock.photo);
+        expect(screen.getByText(`R$${productMock.price}`)).toBeInTheDocument();
 
     });
 });

@@ -21,7 +21,7 @@ export const ProductCard = ({ product }: IProductCardProps) => {
         <StyleCard>
             <li className="list-product">
                 <div className="div-img">
-                    <img src={product.photo} alt="" />
+                    <img src={product.photo} alt={product.name} />
                 </div>
                 <div id="div-price-name">
                     <h1>{product.name}</h1>

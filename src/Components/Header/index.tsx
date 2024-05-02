@@ -22,7 +22,7 @@ export const Header = () => {
                     </div>
                 </div>
                 <div className="div-car">
-                    <button className="btn-car" onClick={() => setIsOpen(true)}><img id="img-car" src={car} alt="" /></button>
+                    <button className="btn-car" onClick={() => setIsOpen(true)}><img id="img-car" src={car} /></button>
                     <p>{cartProducCount}</p>
 
                     {isOpen ? <ModalCar /> : null}
