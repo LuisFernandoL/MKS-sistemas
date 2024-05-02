@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductContext } from "../../Provider/ProductContext";
@@ -8,26 +7,23 @@ import { GrFormSubtract } from "react-icons/gr";
 import { IoCloseSharp } from "react-icons/io5";
 
 export const ProductsModal = () => {
-    const { carts, setCarts, setCartProducCount } = useContext(ProductContext);
-
-    const [productQtd, setproductQtd] = useState<{ [productId: number]: number }>({});
+    const { carts, setCarts, setCartProducCount, updateProductQtd, productQtd } = useContext(ProductContext);
 
     const removeProduct = (productId: number) => {
         const updatedCarts = carts.filter(cart => cart.id !== productId);
         setCarts(updatedCarts);
         setCartProducCount(prevCount => prevCount > 0 ? prevCount - 1 : 0);
-        const { [productId]: removed, ...updatedQuantity } = productQtd;
-        setproductQtd(updatedQuantity);
+        updateProductQtd(productId, 0);
     };
 
-    const updateProductQtd = (productId: number, amount: number) => {
+    const updateQuantity = (productId: number, amount: number) => {
         const currentQuantity = productQtd[productId] || 0;
         const newQuantity = currentQuantity + amount;
-        const updatedQuantity = {
-            ...productQtd,
-            [productId]: newQuantity >= 0 ? newQuantity : 0
-        };
-        setproductQtd(updatedQuantity);
+        if (newQuantity <= 0) {
+            removeProduct(productId);
+        } else {
+            updateProductQtd(productId, newQuantity);
+        }
     };
 
     return (
@@ -50,11 +46,11 @@ export const ProductsModal = () => {
                                         <h3>Qtd:</h3>
                                     </span>
                                     <div id="div-btns">
-                                        <button id="btn-any-less" onClick={() => updateProductQtd(product.id, -1)}>
+                                        <button id="btn-any-less" onClick={() => updateQuantity(product.id, -1)}>
                                             <GrFormSubtract />
                                         </button>
                                         <p id="number-qtd">{productQtd[product.id] || 1}</p>
-                                        <button id="btn-plus" onClick={() => updateProductQtd(product.id, 1)}>
+                                        <button id="btn-plus" onClick={() => updateQuantity(product.id, 1)}>
                                             <GoPlus />
                                         </button>
                                     </div>

@@ -3,11 +3,15 @@ import { ProductContext } from "../../Provider/ProductContext";
 import { SumProducts } from "./style";
 
 export const SumProductsCar = () => {
-    const { carts } = useContext(ProductContext);
+    const { carts, productQtd } = useContext(ProductContext);
 
     const sumTotal = () => {
-        const total = carts.reduce((total, product) => total + parseFloat(product.price.toString()), 0);
-        return total.toFixed(2);
+        const total = carts.reduce((accumulator, product) => {
+            const quantity = productQtd[product.id] || 1;
+            const subtotal = parseFloat(product.price.toString()) * quantity;
+            return accumulator + subtotal;
+        }, 0).toFixed(2);
+        return parseFloat(total);
     };
 
     return (
@@ -19,9 +23,6 @@ export const SumProductsCar = () => {
             <div className="btn-final">
                 <button>Finalizar Compra</button>
             </div>
-
         </SumProducts>
     );
 };
-
-

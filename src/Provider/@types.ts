@@ -21,4 +21,9 @@ export interface IProductContext {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   cartProducCount: number;
   setCartProducCount: React.Dispatch<React.SetStateAction<number>>;
+  productQtd: { [productId: number]: number };
+  setProductQtd: React.Dispatch<
+    React.SetStateAction<{ [productId: number]: number }>
+  >;
+  updateProductQtd: (productId: number, quantity: number) => void;
 }

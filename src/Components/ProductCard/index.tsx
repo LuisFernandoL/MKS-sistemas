@@ -15,6 +15,8 @@ export const ProductCard = ({ product }: IProductCardProps) => {
         addCart(product.id)
     }
 
+    const priceFomatte = parseFloat(product.price.toString()).toFixed(2).replace(/\.0+$/, '');
+
     return (
         <StyleCard>
             <li className="list-product">
@@ -23,7 +25,7 @@ export const ProductCard = ({ product }: IProductCardProps) => {
                 </div>
                 <div id="div-price-name">
                     <h1>{product.name}</h1>
-                    <h2>R${product.price}</h2>
+                    <h2>R${priceFomatte}</h2>
                 </div>
                 <span id="span-description">
                     <h3>{product.description}</h3>

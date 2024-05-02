@@ -10,6 +10,7 @@ export const ProductProvider = ({ children }: IProductProviderProps) => {
     const [carts, setCarts] = useState<IProduct[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [cartProducCount, setCartProducCount] = useState(0);
+    const [productQtd, setProductQtd] = useState<{ [productId: number]: number }>({});
 
     const { data: products, isLoading } = useQuery({
         queryKey: ["products"],
@@ -17,7 +18,7 @@ export const ProductProvider = ({ children }: IProductProviderProps) => {
             const { data } = await api.get<{ count: number, products: IProduct[] }>("/products", {
                 params: {
                     page: 1,
-                    rows: 10,
+                    rows: 8,
                     sortBy: "id",
                     orderBy: "DESC"
                 }
@@ -43,8 +44,28 @@ export const ProductProvider = ({ children }: IProductProviderProps) => {
         }
     };
 
+    const updateProductQtd = (productId: number, quantity: number) => {
+        setProductQtd(prevProductQtd => ({
+            ...prevProductQtd,
+            [productId]: quantity
+        }));
+    };
+
     return (
-        <ProductContext.Provider value={{ products, isLoading, carts, setCarts, addCart, isOpen, setIsOpen, cartProducCount, setCartProducCount }}>
+        <ProductContext.Provider value={{
+            products,
+            isLoading,
+            carts,
+            setCarts,
+            addCart,
+            isOpen,
+            setIsOpen,
+            cartProducCount,
+            setCartProducCount,
+            productQtd,
+            setProductQtd,
+            updateProductQtd
+        }}>
             {children}
         </ProductContext.Provider>
 

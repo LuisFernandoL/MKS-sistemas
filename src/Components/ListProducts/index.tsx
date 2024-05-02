@@ -6,6 +6,7 @@ import { StyleList } from "./style"
 
 export const ListProduct = () => {
     const { products, isLoading } = useContext(ProductContext)
+
     console.log(products)
     return (
         <StyleList>
